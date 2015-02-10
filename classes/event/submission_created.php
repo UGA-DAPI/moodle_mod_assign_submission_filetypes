@@ -15,14 +15,14 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * assignsubmission_file submission_created event.
+ * assignsubmission_filetypes submission_created event.
  *
- * @package    assignsubmission_file
+ * @package    assignsubmission_filetypes
  * @copyright  2014 Adrian Greeve <adrian@moodle.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace assignsubmission_file\event;
+namespace assignsubmission_filetypes\event;
 
 defined('MOODLE_INTERNAL') || die();
 

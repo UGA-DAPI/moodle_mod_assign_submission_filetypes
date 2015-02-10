@@ -31,7 +31,7 @@ defined('MOODLE_INTERNAL') || die();
 // File areas for file submission assignment.
 define('ASSIGNSUBMISSION_FILETYPES_MAXFILES', 20);
 define('ASSIGNSUBMISSION_FILETYPES_MAXSUMMARYFILES', 5);
-define('ASSIGNSUBMISSION_FILETYPES_FILEAREA', 'submission_files');
+define('ASSIGNSUBMISSION_FILETYPES_FILEAREA', 'submission_filetypes');
 
 /**
  * Library class for file submission plugin extending submission plugin base class
@@ -47,7 +47,7 @@ class assign_submission_filetypes extends assign_submission_plugin {
      * @return string
      */
     public function get_name() {
-        return get_string('filetypes', 'assignsubmission_filetypestypes');
+        return get_string('filetypes', 'assignsubmission_filetypes');
     }
 
     /**
