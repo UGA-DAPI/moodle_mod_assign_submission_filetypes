@@ -44,9 +44,9 @@ $string['maximumsubmissionsize'] = 'Taille maximale des fichiers remis';
 $string['maximumsubmissionsize_help'] = 'La taille maximale des fichiers déposés par les participants.';
 $string['numfilesforlog'] = 'Nombre de fichiers : {$a} fichier(s)';
 $string['pluginname'] = 'Remises de fichiers par format';
-$string['restrictfiletypes'] = 'Type de fichiers exclus';
-$string['restrictfiletypes_help'] = '* Si  l\'option type de fichiers exclus est activée, vous pouvez préciser le format de fichier que vous acceptez pour ce devoir.
-                                       Les étudiants ne seront pas autorisés à remettre des fichiers dans les formats que vous aurez exclus.<br /><br />
+$string['restrictfiletypes'] = 'Type de fichiers restreint';
+$string['restrictfiletypes_help'] = '* Si  l\'option type de fichiers restreint est activée, vous pouvez préciser le format de fichier que vous acceptez pour ce devoir.
+                                       Les étudiants ne seront autorisés à remettre des fichiers que dans les formats que vous aurez exclus.<br /><br />
                                      * Si l\'option type de fichiers exclus n\'est pas activée, les étudiants pourront remettre le devoir dans le format de leur choix. <br />
                                      * Si  \'Autre\' est cochée  alors le format sera verifé lors la remise du devoir. ';
 $string['incorrectformatothertext'] = ' Format de fichier incorrect. Le format du fichier doit être, par exemple *.ext, *.sql (separé par des virgules)';
