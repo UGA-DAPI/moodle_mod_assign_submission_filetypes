@@ -262,7 +262,7 @@ class assign_submission_filetypes extends assign_submission_plugin {
                 // Submmited not in the file picker any longer
                 //$otherdocs_types =  array('*');
                 $cleaneddocs_types = str_replace(array(' ','*'),'',$otherdocstext);
-                $filetypes = explode(',', $nowhitespace);
+                $filetypes = explode(',', $cleaneddocs_types);
                 $otherdocs_types = file_get_typegroup('type',$filetypes);
 
             }
