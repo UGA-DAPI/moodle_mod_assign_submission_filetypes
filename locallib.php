@@ -225,6 +225,7 @@ class assign_submission_filetypes extends assign_submission_plugin {
         $videodocs = $this->get_config('videodocs');
         $audiodocs = $this->get_config('audiodocs');
         $otherdocs = $this->get_config('otherdocs');
+        $otherdocstext = $this->get_config('otherdocstext');
 
         // check mimetypes
         if ($restrictfiletypes) {
@@ -264,7 +265,6 @@ class assign_submission_filetypes extends assign_submission_plugin {
                 $cleaneddocs_types = str_replace(array(' ','*'),'',$otherdocstext);
                 $filetypes = explode(',', $cleaneddocs_types);
                 $otherdocs_types = file_get_typegroup('type',$filetypes);
-
             }
             $accepted_types = array_merge($worddocs_types, $pdfdocs_types, $imagedocs_types,
                                           $videodocs_types, $audiodocs_types, $otherdocs_types);
