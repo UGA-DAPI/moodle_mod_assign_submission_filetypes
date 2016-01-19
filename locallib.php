@@ -117,7 +117,7 @@ class assign_submission_filetypes extends assign_submission_plugin {
 
         require_once("HTML/QuickForm/element.php");
         if (class_exists('HTML_QuickForm')) {
-            HTML_QuickForm::registerRule('othertextboxemptycheck', 'function', 'othertextbox_validation', 'assign_submission_file');
+            HTML_QuickForm::registerRule('othertextboxemptycheck', 'function', 'othertextbox_validation', 'assign_submission_filetypes');
         }
 
         // File types restriction setting.
@@ -236,8 +236,7 @@ class assign_submission_filetypes extends assign_submission_plugin {
             $otherdocs_types = array();
             if ($worddocs && empty($otherdocs)) {
                 // Word (*.doc, *.docx, *.rtf).
-                $worddocs_types = file_get_typegroup('type', array('application/msword',
-                                                'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'text/rtf'));
+                $worddocs_types = file_get_typegroup('type', array('document'));
             }
             if ($pdfdocs && empty($otherdocs)) {
                 // PDF (*.pdf).
@@ -245,15 +244,15 @@ class assign_submission_filetypes extends assign_submission_plugin {
             }
             if ($imagedocs && empty($otherdocs)) {
                 // Image (*.gif, *.jpg, *.jpeg, *.png), *.svg, *.tiff).
-               $imagedocs_types = file_get_typegroup('type', array('image/gif', 'image/jpeg', 'image/png', 'image/svg+xml', 'image/tiff'));
+               $imagedocs_types = file_get_typegroup('type', array('image'));
             }
             if ($videodocs && empty($otherdocs)) {
                 // Video (*.mp4, *.flv, *.mov, *.avi).
-                $videodocs_types = file_get_typegroup('type', array('video/mp4', 'video/quicktime', 'video/x-ms-wm'));
+                $videodocs_types = file_get_typegroup('type', array('video'));
             }
             if ($audiodocs && empty($otherdocs)) {
                 // Audio (*.mp3, *.ogg, *.wav, *.aac, *.wma).
-                $audiodocs_types = file_get_typegroup('type', array('audio/mp3', 'audio/ogg', 'audio/wav', 'audio/aac', 'audio/wma'));
+                $audiodocs_types = file_get_typegroup('type', array('audio'));
             }
             if ($otherdocs) {
                 // Other file types.
@@ -261,7 +260,10 @@ class assign_submission_filetypes extends assign_submission_plugin {
                 // Be in the list (get_mimetypes_array) so if this other checkbox is ticked then we are going to accept
                 // All types of files and the validation of the uploaded file(s) extensions will be done when the assignment is
                 // Submmited not in the file picker any longer
-                $otherdocs_types =  array('*');
+                //$otherdocs_types =  array('*');
+                $cleaneddocs_types = str_replace(array(' ','*'),'',$otherdocstext);
+                $filetypes = explode(',', $nowhitespace);
+                $otherdocs_types = file_get_typegroup('type',$filetypes);
 
             }
             $accepted_types = array_merge($worddocs_types, $pdfdocs_types, $imagedocs_types,
@@ -463,82 +465,6 @@ class assign_submission_filetypes extends assign_submission_plugin {
     }
 
     /**
-     * are all uploaded files with acceptable file extensions?
-     * @param stdClass $submissionorgrade assign_submission or assign_grade
-     *                 For submission plugins this is the submission data
-     * @return array of invalid file types
-     */
-    public function invalid_files(stdClass $submission) {
-
-        if(!$this->get_config('restrictfiletypes')) {
-            return array();
-        }
-
-        $worddocs = $this->get_config('worddocs');
-        $pdfdocs = $this->get_config('pdfdocs');
-        $imagedocs = $this->get_config('imagedocs');
-        $videodocs = $this->get_config('videodocs');
-        $audiodocs = $this->get_config('audiodocs');
-        $otherdocs = $this->get_config('otherdocs');
-        $otherdocstext = $this->get_config('otherdocstext');
-        $worddocs_types = array();
-        $pdfdocs_types = array();
-        $imagedocs_types = array();
-        $videodocs_types = array();
-        $audiodocs_types = array();
-        $otherdocs_types = array();
-        $arraydiffer = array();
-        if ($otherdocs) {
-            if ($worddocs) {
-                // Word (*.doc, *.docx, *.rtf).
-                $worddocs_types = array('doc', 'docx', 'rtf');
-            }
-            if ($pdfdocs) {
-                // PDF (*.pdf).
-                $pdfdocs_types = array('pdf');
-            }
-            if ($imagedocs) {
-                // Image (*.gif, *.jpg, *.jpeg, *.png), *.svg, *.tiff).
-               $imagedocs_types = array('gif', 'jpg', 'jpeg', 'png', 'svg', 'tiff');
-            }
-            if ($videodocs) {
-                // Video (*.mp4, *.flv, *.mov, *.avi).
-                $videodocs_types = array('mp4', 'flv', 'mov', 'avi');
-            }
-            if ($audiodocs) {
-                // Audio (*.mp3, *.ogg, *.wav, *.aac, *.wma).
-                $audiodocs_types = array('mp3', 'ogg', 'wav', 'aac', 'wma');
-            }
-            $cleaneddocs_types = array();
-            $nowhitespace = str_replace(' ','',$otherdocstext);
-            $filetypes = explode('*.', $nowhitespace);
-            foreach ($filetypes as $key => $filetype) {
-                $cleaneddocs_types[$key] = str_replace(',','', $filetype);
-            }
-            array_shift($cleaneddocs_types); // Skipping 0 index as it is always empty value.
-            $otherdocs_types = $cleaneddocs_types;
-            $accepted_types = array_merge($worddocs_types, $pdfdocs_types, $imagedocs_types,
-                                          $videodocs_types, $audiodocs_types, $otherdocs_types);
-
-            $result = array();
-            $fs = get_file_storage();
-
-            $files = $fs->get_area_files($this->assignment->get_context()->id, 'assignsubmission_filetypes', ASSIGNSUBMISSION_FILETYPES_FILEAREA, $submission->id, "timemodified", false);
-            foreach ($files as $file) {
-                 if (!$file->is_directory()) {
-                     $uploadedfileextensions = explode('.', $file->get_filename());
-                     array_push($result, end($uploadedfileextensions));
-                 }
-            }
-
-            $arraydiffer = array_diff($result, $accepted_types);
-      }
-
-      return $arraydiffer;
-
-    }
-
-    /**
      * The list of acceptable files
      *
      * @return array of acceptable file types
@@ -568,7 +494,7 @@ class assign_submission_filetypes extends assign_submission_plugin {
 
         if ($worddocs) {
             // Word (*.doc, *.docx, *.rtf).
-            $worddocs_types = array('Word (.doc/.docx/.rtf)');
+            $worddocs_types = array('Document (.doc/.docx/.rtf...)');
         }
         if ($pdfdocs) {
             // PDF (*.pdf).
@@ -576,15 +502,15 @@ class assign_submission_filetypes extends assign_submission_plugin {
         }
         if ($imagedocs) {
             // Image (*.gif, *.jpg, *.jpeg, *.png), *.svg, *.tiff).
-            $imagedocs_types = array('Image (.gif/.jpg/.jpeg/.png/.svg/.tiff)');
+            $imagedocs_types = array('Image (.gif/.jpg/.jpeg/.png/.svg/.tiff...)');
         }
         if ($videodocs) {
             // Video (*.mp4, *.flv, *.mov, *.avi).
-            $videodocs_types = array('Video (.mp4/.flv/.mov/.avi)');
+            $videodocs_types = array('Video (.mp4/.flv/.mov/.avi...)');
         }
         if ($audiodocs) {
             // Audio (*.mp3, *.ogg, *.wav, *.aac, *.wma).
-            $audiodocs_types = array('Audio (.mp3/.ogg/.wav/.aac/.wma)');
+            $audiodocs_types = array('Audio (.mp3/.ogg/.wav/.aac/.wma...)');
         }
 
         if ($otherdocs) {
