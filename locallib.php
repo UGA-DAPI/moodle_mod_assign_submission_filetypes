@@ -60,6 +60,31 @@ class assign_submission_filetypes extends assign_submission_plugin {
         global $DB;
         return $DB->get_record('assignsubmission_filetypes', array('submission'=>$submissionid));
     }
+/**
+     * The list of acceptable extensions by group
+     *
+     * @return string acceptable file extension
+     */
+    public function get_accepted_extensions($group) {
+
+        if ($group == 'worddocs'){
+            $norm_group = 'document';
+        }elseif ($group =='pdfdocs'){
+             $norm_group  = 'application/pdf';
+        }elseif ($group =='imagedocs'){
+             $norm_group = 'image';
+        }elseif ($group =='videodocs'){
+             $norm_group = 'video';
+        }elseif ($group =='audiodocs'){
+             $norm_group = 'audio';
+	}else{
+	     $norm_group = $group;
+	}
+        $accepted_extensions = file_get_typegroup('extension',$norm_group);
+	$label_extensions = get_string($group, 'assignsubmission_filetypes').' ('.implode('/',$accepted_extensions).')';
+	return $label_extensions;
+    }
+
 
     /**
      * Get the default setting for file submission plugin
@@ -129,31 +154,31 @@ class assign_submission_filetypes extends assign_submission_plugin {
         // File type checkboxes.
 
         // Word docs.
-        $mform->addElement('advcheckbox', 'assignsubmission_filetypes_worddocs', '', get_accepted_extensions('worddocs'));
+        $mform->addElement('advcheckbox', 'assignsubmission_filetypes_worddocs', '', $this->get_accepted_extensions('worddocs'));
         $mform->setDefault('assignsubmission_filetypes_worddocs', $worddocs);
         $mform->disabledIf('assignsubmission_filetypes_worddocs', 'assignsubmission_filetypes_enabled', 'eq', 0);
         $mform->disabledIf('assignsubmission_filetypes_worddocs', 'assignsubmission_filetypes_restrictfiletypes', 'eq', 0);
 
         // PDF docs.
-        $mform->addElement('advcheckbox', 'assignsubmission_filetypes_pdfdocs', '', get_accepted_extensions('pdfdocs'));
+        $mform->addElement('advcheckbox', 'assignsubmission_filetypes_pdfdocs', '', $this->get_accepted_extensions('pdfdocs'));
         $mform->setDefault('assignsubmission_filetypes_pdfdocs', $pdfdocs);
         $mform->disabledIf('assignsubmission_filetypes_pdfdocs', 'assignsubmission_filetypes_enabled', 'eq', 0);
         $mform->disabledIf('assignsubmission_filetypes_pdfdocs', 'assignsubmission_filetypes_restrictfiletypes', 'eq', 0);
 
         // Image docs.
-        $mform->addElement('advcheckbox', 'assignsubmission_filetypes_imagedocs', '', get_accepted_extensions('imagedocs'));
+        $mform->addElement('advcheckbox', 'assignsubmission_filetypes_imagedocs', '', $this->get_accepted_extensions('imagedocs'));
         $mform->setDefault('assignsubmission_filetypes_imagedocs', $imagedocs);
         $mform->disabledIf('assignsubmission_filetypes_imagedocs', 'assignsubmission_filetypes_enabled', 'eq', 0);
         $mform->disabledIf('assignsubmission_filetypes_imagedocs', 'assignsubmission_filetypes_restrictfiletypes', 'eq', 0);
 
         // Video docs.
-        $mform->addElement('advcheckbox', 'assignsubmission_filetypes_videodocs', '', get_accepted_extensions('videodocs'));
+        $mform->addElement('advcheckbox', 'assignsubmission_filetypes_videodocs', '', $this->get_accepted_extensions('videodocs'));
         $mform->setDefault('assignsubmission_filetypes_videodocs', $videodocs);
         $mform->disabledIf('assignsubmission_filetypes_videodocs', 'assignsubmission_filetypes_enabled', 'eq', 0);
         $mform->disabledIf('assignsubmission_filetypes_videodocs', 'assignsubmission_filetypes_restrictfiletypes', 'eq', 0);
 
         // Audio docs.
-        $mform->addElement('advcheckbox', 'assignsubmission_filetypes_audiodocs', '', get_accepted_extensions('audiodocs'));
+        $mform->addElement('advcheckbox', 'assignsubmission_filetypes_audiodocs', '', $this->get_accepted_extensions('audiodocs'));
         $mform->setDefault('assignsubmission_filetypes_audiodocs', $audiodocs);
         $mform->disabledIf('assignsubmission_filetypes_audiodocs', 'assignsubmission_filetypes_enabled', 'eq', 0);
         $mform->disabledIf('assignsubmission_filetypes_audiodocs', 'assignsubmission_filetypes_restrictfiletypes', 'eq', 0);
@@ -235,23 +260,23 @@ class assign_submission_filetypes extends assign_submission_plugin {
             $videodocs_types = array();
             $audiodocs_types = array();
             $otherdocs_types = array();
-            if ($worddocs && empty($otherdocs)) {
+            if ($worddocs ) {
                 // Word (*.doc, *.docx, *.rtf).
                 $worddocs_types = file_get_typegroup('type', array('document'));
             }
-            if ($pdfdocs && empty($otherdocs)) {
+            if ($pdfdocs ) {
                 // PDF (*.pdf).
                 $pdfdocs_types = file_get_typegroup('type', array('application/pdf'));
             }
-            if ($imagedocs && empty($otherdocs)) {
+            if ($imagedocs) {
                 // Image (*.gif, *.jpg, *.jpeg, *.png), *.svg, *.tiff).
                $imagedocs_types = file_get_typegroup('type', array('image'));
             }
-            if ($videodocs && empty($otherdocs)) {
+            if ($videodocs) {
                 // Video (*.mp4, *.flv, *.mov, *.avi).
                 $videodocs_types = file_get_typegroup('type', array('video'));
             }
-            if ($audiodocs && empty($otherdocs)) {
+            if ($audiodocs) {
                 // Audio (*.mp3, *.ogg, *.wav, *.aac, *.wma).
                 $audiodocs_types = file_get_typegroup('type', array('audio'));
             }
@@ -463,27 +488,6 @@ class assign_submission_filetypes extends assign_submission_plugin {
         }
         return $result;
     }
-/**
-     * The list of acceptable extensions by group
-     *
-     * @return string acceptable file extension
-     */
-    public function get_accepted_extensions($group) {
-
-        if ($groups=='worddocs'){
-            $accepted_extensions=file_get_typegroup('extension','document');
-        }elseif ($groups=='pdfdocs'){
-             $accepted_extensions=file_get_typegroup('extension','application/pdf');
-        }elseif ($groups=='imagedocs'){
-             $accepted_extensions=file_get_typegroup('extension','image');
-        }elseif ($groups=='videodocs'){
-             $accepted_extensions=file_get_typegroup('extension','video');
-        }elseif ($groups=='audiodocs'){
-             $accepted_extensions=file_get_typegroup('extension','audio');
-        }
-        return get_string($group, 'assignsubmission_filetypes').'('implode('/',$accepted_extensions).')';
-
-    }
     /**
      * The list of acceptable files
      *
@@ -514,23 +518,23 @@ class assign_submission_filetypes extends assign_submission_plugin {
 
         if ($worddocs) {
             // Word (*.doc, *.docx, *.rtf).
-            $worddocs_types = array(get_accepted_extensions('worddocs'));
+            $worddocs_types = array($this->get_accepted_extensions('worddocs'));
         }
         if ($pdfdocs) {
             // PDF (*.pdf).
-            $pdfdocs_types = array(get_accepted_extensions('pdfdocs'));
+            $pdfdocs_types = array($this->get_accepted_extensions('pdfdocs'));
         }
         if ($imagedocs) {
             // Image (*.gif, *.jpg, *.jpeg, *.png), *.svg, *.tiff).
-            $imagedocs_types = array(get_accepted_extensions('imagedocs'));
+            $imagedocs_types = array($this->get_accepted_extensions('imagedocs'));
         }
         if ($videodocs) {
             // Video (*.mp4, *.flv, *.mov, *.avi).
-            $videodocs_types = array(get_accepted_extensions('videodocs'));
+            $videodocs_types = array($this->get_accepted_extensions('videodocs'));
         }
         if ($audiodocs) {
             // Audio (*.mp3, *.ogg, *.wav, *.aac, *.wma).
-            $audiodocs_types = array(get_accepted_extensions('audiodocs'));
+            $audiodocs_types = array($this->get_accepted_extensions('audiodocs'));
         }
 
         if ($otherdocs) {
