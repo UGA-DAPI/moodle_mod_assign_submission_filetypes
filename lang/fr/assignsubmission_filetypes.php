@@ -23,7 +23,7 @@
  */
 
 
-$string['audiodocs'] = 'Audio (*.mp3)';
+$string['audiodocs'] = 'Audio';
 $string['configmaxbytes'] = 'Taille maximale des fichiers';
 $string['countfiles'] = '{$a} fichiers';
 $string['default'] = 'Activé par défaut';
@@ -32,11 +32,11 @@ $string['enabled'] = 'Remises de fichiers par format';
 $string['enabled_help'] = 'Si ce réglage est activé, les participants pourront déposer un ou plusieurs fichiers pour leur devoir.';
 $string['eventassessableuploaded'] = 'Fichier déposé.';
 $string['filetypes'] = 'Remises de fichiers par format  ';
-$string['imagedocs'] = 'Image (*.gif, *.jpg, *.jpeg, *.png, *.svg, *.tiff)';
+$string['imagedocs'] = 'Image';
 $string['otherdocs'] = 'Autre';
 $string['otherdocstext'] = 'Au format *.ext, séparé par des virgules';
 $string['permittedfiletypes'] = 'Seuls les formats suivants peuvent être remis pour ce devoir: <br /> <strong> {$a} </strong>';
-$string['pdfdocs'] = 'PDF (*.pdf)';
+$string['pdfdocs'] = 'PDF';
 $string['maxbytes'] = 'Taille maximale des fichiers';
 $string['maxfilessubmission'] = 'Nombre maximum de fichiers à remettre';
 $string['maxfilessubmission_help'] = 'Si la remise de fichiers est activée, chaque participants pourra déposer au maximum ce nombre de fichiers pour son travail.';
@@ -50,7 +50,7 @@ $string['restrictfiletypes_help'] = '* Si  l\'option type de fichiers restreint 
                                      * Si l\'option type de fichiers exclus n\'est pas activée, les étudiants pourront remettre le devoir dans le format de leur choix. <br />
                                      * Si  \'Autre\' est cochée  alors le format sera verifé lors la remise du devoir. ';
 $string['incorrectformatothertext'] = ' Format de fichier incorrect. Le format du fichier doit être, par exemple *.ext, *.sql (separé par des virgules)';
-$string['videodocs'] = 'Video (*.mp4, *.flv)';
-$string['worddocs'] = 'Documents Word (*.doc, *.docx, *.rtf)';
+$string['videodocs'] = 'Video';
+$string['worddocs'] = 'Documents';
 $string['siteuploadlimit'] = 'Taille maximale du site';
 $string['submissionfilearea'] = 'Fichiers déposés';

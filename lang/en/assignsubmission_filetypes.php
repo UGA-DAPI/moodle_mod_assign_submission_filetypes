@@ -23,7 +23,7 @@
  */
 
 
-$string['audiodocs'] = 'Audio (*.mp3)';
+$string['audiodocs'] = 'Audio';
 $string['configmaxbytes'] = 'Maximum file size';
 $string['countfiles'] = '{$a} files';
 $string['default'] = 'Enabled by default';
@@ -32,11 +32,11 @@ $string['enabled'] = 'File with type submissions';
 $string['enabled_help'] = 'If enabled, students are able to upload one or more files as their submission.';
 $string['eventassessableuploaded'] = 'A file has been uploaded.';
 $string['filetypes'] = 'File submissions with type restriction';
-$string['imagedocs'] = 'Image (*.gif, *.jpg, *.jpeg, *.png, *.svg, *.tiff)';
+$string['imagedocs'] = 'Image';
 $string['otherdocs'] = 'Other';
 $string['otherdocstext'] = 'In format *.ext, Comma-separated';
 $string['permittedfiletypes'] = 'Only the following file type(s) can be uploaded to this assignment: <br /> <strong> {$a} </strong>';
-$string['pdfdocs'] = 'PDF (*.pdf)';
+$string['pdfdocs'] = 'PDF';
 $string['maxbytes'] = 'Maximum file size';
 $string['maxfilessubmission'] = 'Maximum number of uploaded files';
 $string['maxfilessubmission_help'] = 'If file submissions are enabled, each student will be able to upload up to this number of files for their submission.';
@@ -51,7 +51,7 @@ $string['restrictfiletypes_help'] = '* If Restrict File Types is enabled, you ca
                                      * If Restrict File Types is set to No, there will be no restriction on the type of files students may submit. <br />
                                      * If \'Other\' checkbox is ticked then the file type validation will be checked * when the submitted files are saved. ';
 $string['incorrectformatothertext'] = ' Incorrect file format. The file format(s) must be like *.ext, *.sql (separated with comma)';
-$string['videodocs'] = 'Video (*.mp4, *.flv)';
-$string['worddocs'] = 'Word documents (*.doc, *.docx, *.rtf)';
+$string['videodocs'] = 'Video';
+$string['worddocs'] = 'Documents';
 $string['siteuploadlimit'] = 'Site upload limit';
 $string['submissionfilearea'] = 'Uploaded submission files';
